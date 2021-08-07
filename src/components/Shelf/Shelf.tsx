@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Product } from './models';
+import ShelfHeader from '../ShelfHeader/ShelfHeader';
+
+import './shelf.styles.scss';
 
 interface ShelfProps {
   filters: string[];
   sort?: string;
-}
-
-interface Product {
-  id: string;
-  name: string;
-  subscribers_url: string;
 }
 
 const Shelf: React.FC<ShelfProps> = ({ filters, sort }) => {
@@ -42,6 +40,7 @@ const Shelf: React.FC<ShelfProps> = ({ filters, sort }) => {
   return (
     <>
       <div className="shelf-container">
+        <ShelfHeader productsLength={products.length} />
         {products.map((product) => (
           <p>{product.name}</p>
         ))}

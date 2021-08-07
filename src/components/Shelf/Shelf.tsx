@@ -23,7 +23,6 @@ const Shelf: React.FC<ShelfProps> = ({ filters, sort }) => {
       const response = await axios.get(apiUrl).then((res) => {
         return res.data;
       });
-      console.log(response);
       setProducts(response);
     } catch (error) {
       console.error(error);

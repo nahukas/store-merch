@@ -1,10 +1,13 @@
 import React from 'react';
+import Shelf from './components/Shelf/Shelf';
 
 const App: React.FC = () => (
   <>
     <main>
-      <p>Filter</p>
-      <p>Shelf</p>
+      <>
+        <p>Filter</p>
+        <Shelf filters={[]} />
+      </>
     </main>
     <p>Cart</p>
   </>

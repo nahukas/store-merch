@@ -9,6 +9,7 @@ interface ShelfProps {
 interface Product {
   id: string;
   name: string;
+  subscribers_url: string;
 }
 
 const Shelf: React.FC<ShelfProps> = ({ filters, sort }) => {
@@ -22,6 +23,7 @@ const Shelf: React.FC<ShelfProps> = ({ filters, sort }) => {
       const response = await axios.get(apiUrl).then((res) => {
         return res.data;
       });
+      console.log(response);
       setProducts(response);
     } catch (error) {
       console.error(error);
@@ -34,15 +36,16 @@ const Shelf: React.FC<ShelfProps> = ({ filters, sort }) => {
     handleFetchProducts();
   }, []);
 
-  if (isLoading && products.length !== 0) {
+  if (isLoading && !products.length && typeof products !== 'undefined') {
     return <h2>Loading</h2>;
   }
 
   return (
     <>
       <div className="shelf-container">
-        <p>{products[0].id}</p>
-        <p>{products[0].name}</p>
+        {products.map((product) => (
+          <p>{product.name}</p>
+        ))}
       </div>
     </>
   );

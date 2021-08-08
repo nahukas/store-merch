@@ -1,6 +1,7 @@
 import React from 'react';
-import { IProduct } from '../../../../data/data';
+
 import { formatPrice } from '../../../../utils/formatPrice';
+import { IProduct } from '../../models';
 
 interface ProductProps {
   product: IProduct;

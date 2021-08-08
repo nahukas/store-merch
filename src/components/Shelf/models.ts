@@ -1,6 +1,11 @@
-export interface Product {
-  id: string;
+export interface IProduct {
+  id: number;
+  sku: string;
+  installments: number;
   name: string;
-  subscribers_url: string;
   price: number;
+  currency: 'eur' | 'usd';
+  currencyFormat: '€' | '$';
+  isFreeShipping: boolean;
+  size?: string[];
 }

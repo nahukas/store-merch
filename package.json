@@ -11,7 +11,8 @@
     "@types/react": "^17.0.16",
     "@types/react-dom": "^17.0.9",
     "axios": "^0.21.1",
-    "node-sass": "^6.0.1",
+    "concurrently": "^6.2.1",
+    "cors": "^2.8.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -19,7 +20,8 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"npm run server\" \"react-scripts start\"",
+    "server": "nodemon server/app",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -43,5 +45,9 @@
     ]
   },
   "keywords": [],
-  "description": "Store Front"
+  "description": "Store Front",
+  "devDependencies": {
+    "node-sass": "^6.0.1",
+    "nodemon": "^2.0.12"
+  }
 }

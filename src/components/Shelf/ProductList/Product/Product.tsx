@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { formatPrice } from '../../../../utils/formatPrice';
+import Thumb from '../../../Thumb/Tumb';
 import { IProduct } from '../../models';
 
 interface ProductProps {
@@ -35,7 +36,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
       {product.isFreeShipping && (
         <div className="shelf-stopper">Free shipping</div>
       )}
-      <span>Thumb</span>
+      <Thumb classes="shelf-item__thumb" product={product} />
       <p className="shelf-item__title">{product.name}</p>
       <div className="shelf-item__price">
         <div className="val">

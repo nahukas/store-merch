@@ -1,9 +1,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import Filter from './components/Filter/Filter';
 
 test('renders learn react link', () => {
-  render(<App />);
-  const filter = screen.getByText(/filter/i);
+  const mockUpdateFilters = (mockSelectedBoxes: unknown[]) => {
+    return false;
+  };
+
+  render(<Filter updateFilters={mockUpdateFilters} />);
+  const filter = screen.getByText(/sizes/i);
   expect(filter).toBeInTheDocument();
 });

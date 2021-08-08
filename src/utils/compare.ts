@@ -1,12 +1,12 @@
-import { Product } from '../components/Shelf/models';
+import { IProduct } from '../components/Shelf/models';
 
 export const compare = {
-  lowestPrice: (a: Product, b: Product) => {
+  lowestPrice: (a: IProduct, b: IProduct) => {
     if (a.price < b.price) return -1;
     if (a.price > b.price) return 1;
     return 0;
   },
-  highestPrice: (a: Product, b: Product) => {
+  highestPrice: (a: IProduct, b: IProduct) => {
     if (a.price > b.price) return -1;
     if (a.price < b.price) return 1;
     return 0;

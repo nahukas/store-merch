@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Product } from './models';
-import ShelfHeader from '../ShelfHeader/ShelfHeader';
+import ShelfHeader from './ShelfHeader/ShelfHeader';
 
 import './shelf.styles.scss';
 
@@ -42,7 +42,7 @@ const Shelf: React.FC<ShelfProps> = ({ filters, sort }) => {
       <div className="shelf-container">
         <ShelfHeader productsLength={products.length} />
         {products.map((product) => (
-          <p>{product.name}</p>
+          <p key={product.name}>{product.name}</p>
         ))}
       </div>
     </>

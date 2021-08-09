@@ -1,36 +1,41 @@
-import React from 'react';
+import React, { useContext } from "react";
+import { dataContext } from "../../../../context/storeApi";
 
-import { formatPrice } from '../../../../utils/formatPrice';
-import Thumb from '../../../Thumb/Tumb';
-import { IProduct } from '../../models';
+import { formatPrice } from "../../../../utils/formatPrice";
+import Thumb from "../../../Thumb/Thumb";
+import { IProduct } from "../../models";
 
 interface ProductProps {
   product: IProduct;
+  cartProducts: IProduct[];
 }
 
-const Product: React.FC<ProductProps> = ({ product }) => {
-  let productInstallment;
+const Product: React.FC<ProductProps> = ({ product, cartProducts }) => {
+  const { updateCartProducts } = useContext(dataContext);
+
   const formattedPrice = formatPrice(product.price, product.currency);
-  product.installments = 1;
 
-  if (!!product.installments) {
-    const installmentPrice = product.price / product.installments;
+  const handleAddProduct = (product: IProduct) => {
+    let productAlreadyInCart = false;
 
-    productInstallment = (
-      <div className="installment">
-        <span>or {product.installments} x</span>
-        <b>
-          {product.currencyFormat}
-          {formatPrice(installmentPrice, product.currency)}
-        </b>
-      </div>
-    );
-  }
+    cartProducts.forEach((cartProduct) => {
+      if (cartProduct.id === product.id) {
+        cartProduct.quantity++;
+        productAlreadyInCart = true;
+      }
+    });
+
+    if (!productAlreadyInCart) {
+      product.quantity = 1;
+      cartProducts.push(product);
+    }
+    updateCartProducts(cartProducts);
+  };
 
   return (
     <div
       className="shelf-item"
-      //   onClick={() => addProduct(product)}
+      onClick={() => handleAddProduct(product)}
       data-sku={product.sku}
     >
       {product.isFreeShipping && (
@@ -44,7 +49,6 @@ const Product: React.FC<ProductProps> = ({ product }) => {
           <b>{formattedPrice.substr(0, formattedPrice.length - 3)}</b>
           <span>{formattedPrice.substr(formattedPrice.length - 3, 3)}</span>
         </div>
-        {productInstallment}
       </div>
       <div className="shelf-item__buy-btn">Add to cart</div>
     </div>

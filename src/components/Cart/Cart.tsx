@@ -17,17 +17,23 @@ const Cart: React.FC<CartProps> = ({ cartProducts, uuid }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [cartProductsQuantity, setCartProductsQuantity] = useState(0);
+  const [total, setTotal] = useState(0);
   const [serverProducts, setServerProducts] = useState<IProduct[]>([]);
 
   const handleCartProductsQuantity = useCallback(
     (cartProductsParam: IProduct[]) => {
       let count = 0;
+      let totalCalculation = 0;
       if (cartProductsParam.length) {
         count = cartProducts
           .map((item) => item.quantity)
           .reduce((prev, next) => prev + next);
+        totalCalculation = cartProducts
+          .map((item) => item.quantity * item.price)
+          .reduce((prev, next) => prev + next);
       }
       setCartProductsQuantity(count);
+      setTotal(totalCalculation);
     },
     [cartProducts]
   );
@@ -58,24 +64,6 @@ const Cart: React.FC<CartProps> = ({ cartProducts, uuid }) => {
     setIsOpen(!isOpen);
   };
 
-  const addProduct = (product: IProduct) => {
-    let productAlreadyInCart = false;
-
-    cartProducts.forEach((cartProduct) => {
-      if (cartProduct.id === product.id) {
-        cartProduct.quantity += product.quantity;
-        productAlreadyInCart = true;
-      }
-    });
-
-    if (!productAlreadyInCart) {
-      cartProducts.push(product);
-    }
-
-    updateCartProducts(cartProducts);
-    handleFloatCart();
-  };
-
   const removeProduct = (product: IProduct) => {
     const index = cartProducts.findIndex(
       (cartProduct) => cartProduct.id === product.id
@@ -87,11 +75,7 @@ const Cart: React.FC<CartProps> = ({ cartProducts, uuid }) => {
   };
 
   const proceedToCheckout = () => {
-    if (!cartProductsQuantity) {
-      alert("Add some product in the cart!");
-    } else {
-      alert("Add some product in the cart!");
-    }
+    alert(`Checkout $ ${total}`);
   };
 
   const changeProductQuantity = (changedProduct: IProduct) => {
@@ -104,12 +88,14 @@ const Cart: React.FC<CartProps> = ({ cartProducts, uuid }) => {
   };
 
   const products = cartProducts.map((cartProduct) => {
+    const serveProduct = serverProducts.find((p) => p.id === cartProduct.id);
     return (
       <CartProduct
         key={cartProduct.id}
         product={cartProduct}
         removeProduct={removeProduct}
         changeProductQuantity={changeProductQuantity}
+        availableQuantity={serveProduct ? serveProduct!.quantity : 0}
       />
     );
   });
@@ -151,18 +137,17 @@ const Cart: React.FC<CartProps> = ({ cartProducts, uuid }) => {
           )}
         </div>
 
-        <div className="float-cart__footer">
-          <div className="sub">SUBTOTAL</div>
-          <div className="sub-price">
-            <p className="sub-price__val">test</p>
-            <small className="sub-price__installment">
-              {!!cartProductsQuantity && <span>test</span>}
-            </small>
+        {products.length && (
+          <div className="float-cart__footer">
+            <div className="sub">Total</div>
+            <div className="sub-price">
+              <p className="sub-price__val">{`$ ${total.toFixed(2)}`}</p>
+            </div>
+            <div onClick={() => proceedToCheckout()} className="buy-btn">
+              Checkout
+            </div>
           </div>
-          <div onClick={() => proceedToCheckout()} className="buy-btn">
-            Checkout
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

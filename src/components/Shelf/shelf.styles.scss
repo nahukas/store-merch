@@ -44,6 +44,12 @@
     border: 1px solid transparent;
     cursor: pointer;
 
+    &__disabled {
+      opacity: 0.3;
+      background: gray;
+      cursor: not-allowed;
+    }
+
     &:hover {
       border: 1px solid #eee;
 

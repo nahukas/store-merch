@@ -1,14 +1,15 @@
-import { createContext } from 'react';
-import store, { IData } from '../data/data';
+import { createContext } from "react";
+import { IProduct } from "../components/Shelf/models";
 
+export interface IData {
+  products: IProduct[];
+}
 interface IContext {
-  data: IData;
-  setData: (dataProps: IData[]) => void;
+  updateCartProducts: (dataProps: IProduct[]) => void;
 }
 
 const initial: IContext = {
-  data: store,
-  setData: () => {},
+  updateCartProducts: () => {},
 };
 
 export const dataContext = createContext<IContext>(initial);

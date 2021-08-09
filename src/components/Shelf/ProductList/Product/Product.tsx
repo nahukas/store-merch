@@ -15,6 +15,18 @@ const Product: React.FC<ProductProps> = ({ product, cartProducts }) => {
 
   const formattedPrice = formatPrice(product.price, product.currency);
 
+  const isNotAvailable = () => {
+    const cartProduct = cartProducts.find((p) => p.id === product.id);
+    if (cartProduct) {
+      if (cartProduct.quantity === product.quantity) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  };
+
   const handleAddProduct = (product: IProduct) => {
     let productAlreadyInCart = false;
 
@@ -26,17 +38,16 @@ const Product: React.FC<ProductProps> = ({ product, cartProducts }) => {
     });
 
     if (!productAlreadyInCart) {
-      product.quantity = 1;
-      cartProducts.push(product);
+      const cartProduct = { ...product };
+      cartProduct.quantity = 1;
+      cartProducts.push(cartProduct);
     }
     updateCartProducts(cartProducts);
   };
 
   return (
     <div
-      className="shelf-item"
-      onClick={() => handleAddProduct(product)}
-      data-sku={product.sku}
+      className={`shelf-item ${isNotAvailable() ? "shelf-item__disabled" : ""}`}
     >
       {product.isFreeShipping && (
         <div className="shelf-stopper">Free shipping</div>
@@ -50,7 +61,13 @@ const Product: React.FC<ProductProps> = ({ product, cartProducts }) => {
           <span>{formattedPrice.substr(formattedPrice.length - 3, 3)}</span>
         </div>
       </div>
-      <div className="shelf-item__buy-btn">Add to cart</div>
+      <button
+        className="shelf-item__buy-btn"
+        onClick={() => handleAddProduct(product)}
+        disabled={isNotAvailable()}
+      >
+        Add to cart
+      </button>
     </div>
   );
 };

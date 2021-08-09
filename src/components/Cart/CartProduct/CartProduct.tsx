@@ -7,12 +7,14 @@ interface CartProductProps {
   product: IProduct;
   removeProduct: (product: IProduct) => void;
   changeProductQuantity: (product: IProduct) => void;
+  availableQuantity: number;
 }
 
 const CartProduct: React.FC<CartProductProps> = ({
   product,
   removeProduct,
   changeProductQuantity,
+  availableQuantity,
 }) => {
   const [isMouseOver, setIsMouseOver] = useState(false);
 
@@ -65,7 +67,11 @@ const CartProduct: React.FC<CartProductProps> = ({
           >
             -
           </button>
-          <button onClick={handleOnIncrease} className="change-product-button">
+          <button
+            disabled={product.quantity === availableQuantity ? true : false}
+            onClick={handleOnIncrease}
+            className="change-product-button"
+          >
             +
           </button>
         </div>
